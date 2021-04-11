@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimalRescue">
-        <activity android:name=".ui.main.view.MainActivity">
+        <activity android:name=".ui.component.animal_add.view.AnimalAddActivity"></activity>
+        <activity android:name=".ui.component.animal_info.view.AnimalInfoActivity" />
+        <activity android:name=".ui.component.animal_list.view.AnimalListActivity" />
+        <activity android:name=".ui.component.main.view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

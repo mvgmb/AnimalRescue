@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AnimalRescue</string>
+    <string name="search">search</string>
+    <string name="add">add</string>
+    <string name="popup">popup</string>
+    <string name="user">user</string>
+    <string name="animal_list_button">Animais em perigo</string>
+    <string name="my_animal_list_button">Minha lista de animais</string>
+    <string name="add_animal_button">Adicionar Animal</string>
+    <string name="user_info_button">Usuário</string>
 </resources>
