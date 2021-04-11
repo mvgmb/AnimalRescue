@@ -5,14 +5,36 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AnimalRepositorySource
 import com.cin.animalrescue.data.model.Animal
+import com.cin.animalrescue.ui.component.animal_list.view.AnimalListActivity
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 
 class FirebaseAnimalDB : AnimalRepositorySource {
-    var storage: FirebaseStorage = Firebase.storage
     val db = Firebase.firestore
+
+    var storage: FirebaseStorage = Firebase.storage
+
+    override fun getById(id: String): LiveData<Animal> {
+        val res = MutableLiveData<Animal>()
+        db.collection("animals")
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                res.postValue(createAnimalFromData(it.data!!))
+            }
+            .addOnFailureListener { e ->
+                Log.e("MY_TAG", "Error getting document by ID: $e")
+            }
+        return res
+    }
+
+    override fun getByType(type: String): LiveData<List<Animal>> {
+        TODO("Not yet implemented")
+    }
 
     override fun getAll(): LiveData<List<Animal>> {
         val res = MutableLiveData<List<Animal>>()
@@ -20,34 +42,26 @@ class FirebaseAnimalDB : AnimalRepositorySource {
             .get()
             .addOnSuccessListener { result ->
                 val animalMutableList = mutableListOf<Animal>()
-                result.map { document ->
-                    animalMutableList.add(
-                        Animal(
-                            document.data["id"].toString(),
-                            document.data["helper"].toString(),
-                            document.data["type"].toString(),
-                            document.data["title"].toString(),
-                            document.data["location"].toString(),
-                            document.data["info"].toString(),
-                        )
-                    )
+                result.map {
+                    animalMutableList.add(createAnimalFromData(it.data))
                 }
                 res.postValue(animalMutableList)
             }
-            .addOnFailureListener { exception ->
-                Log.e("MY_TAG", "Error getting documents.", exception)
+            .addOnFailureListener { e ->
+                Log.e("MY_TAG", "Error getting all documents: $e")
             }
         return res
     }
 
     override suspend fun insert(animal: Animal) {
         db.collection("animals")
-            .add(animal)
+            .document(animal.id)
+            .set(animal)
             .addOnSuccessListener { documentReference ->
-                Log.i("MY_TAG", "DocumentSnapshot added with ID: ${documentReference.id}")
+                Log.i("MY_TAG", "DocumentSnapshot added with ID: ${animal.id}")
             }
             .addOnFailureListener { e ->
-                Log.e("MY_TAG", "Error adding document $e")
+                Log.e("MY_TAG", "Error inserting document: $e")
             }
     }
 
@@ -59,7 +73,14 @@ class FirebaseAnimalDB : AnimalRepositorySource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getByType(type: String) {
-        TODO("Not yet implemented")
+    private fun createAnimalFromData(data: Map<String, Any>): Animal {
+        return Animal(
+            data["id"].toString(),
+            data["helper"].toString(),
+            data["type"].toString(),
+            data["title"].toString(),
+            data["location"].toString(),
+            data["info"].toString(),
+        )
     }
 }

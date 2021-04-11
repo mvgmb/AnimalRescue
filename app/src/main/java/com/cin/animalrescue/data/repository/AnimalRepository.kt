@@ -8,6 +8,16 @@ import com.cin.animalrescue.data.model.Animal
 
 class AnimalRepository(private val animalRepositorySource: AnimalRepositorySource) {
     @WorkerThread
+    fun getById(id: String): LiveData<Animal> {
+        return animalRepositorySource.getById(id)
+    }
+
+    @WorkerThread
+    fun getByType(type: String): LiveData<List<Animal>> {
+        return animalRepositorySource.getByType(type)
+    }
+
+    @WorkerThread
     fun getAll(): LiveData<List<Animal>> {
         return animalRepositorySource.getAll()
     }
@@ -25,10 +35,5 @@ class AnimalRepository(private val animalRepositorySource: AnimalRepositorySourc
     @WorkerThread
     suspend fun remove(animal: Animal) {
         animalRepositorySource.remove(animal)
-    }
-
-    @WorkerThread
-    suspend fun getByType(type: String) {
-        animalRepositorySource.getByType(type)
     }
 }

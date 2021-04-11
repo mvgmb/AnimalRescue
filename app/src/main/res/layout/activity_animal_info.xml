@@ -7,11 +7,33 @@
     android:padding="7dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Animal Information Activity"
         android:textAlignment="center" />
 
+    <TextView
+        android:id="@+id/helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
 
 </LinearLayout>
