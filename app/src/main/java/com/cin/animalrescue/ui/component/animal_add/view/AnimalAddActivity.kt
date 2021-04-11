@@ -30,4 +30,6 @@ class AnimalAddActivity : BaseActivity() {
             )
         }
     }
+
+    override fun observeViewModel() {}
 }

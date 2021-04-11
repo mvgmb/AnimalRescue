@@ -26,4 +26,6 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this, AnimalAddActivity::class.java))
         }
     }
+
+    override fun observeViewModel() {}
 }
