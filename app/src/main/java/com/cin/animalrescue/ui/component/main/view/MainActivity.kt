@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.cin.animalrescue.R
 import com.cin.animalrescue.databinding.ActivityMainBinding
 import com.cin.animalrescue.ui.component.animal_add.view.AnimalAddActivity
+import com.cin.animalrescue.ui.component.animal_info.view.MapsActivity
 import com.cin.animalrescue.ui.component.animal_list.view.AnimalListActivity
 import com.task.ui.base.BaseActivity
 
@@ -20,6 +21,10 @@ class MainActivity : BaseActivity() {
 
         binding.btnAnimalList.setOnClickListener {
             startActivity(Intent(this, AnimalListActivity::class.java))
+        }
+
+        binding.btnMyAnimalList.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java))
         }
 
         binding.btnAddAnimal.setOnClickListener {
