@@ -1,6 +1,9 @@
 package com.cin.animalrescue.ui.component.animal_add.view
 
 import android.content.Intent
+import android.location.Geocoder
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
@@ -10,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.task.ui.base.BaseActivity
+import java.lang.Exception
 import java.util.*
 
 class AnimalAddActivity : BaseActivity() {
@@ -52,19 +56,33 @@ class AnimalAddActivity : BaseActivity() {
     }
 
     private fun handleBtnRegisterClick() {
-        animalListViewModel.insert(
-            Animal(
-                id = UUID.randomUUID().toString(),
-                helper_uid = currentUserUID,
-                type = binding.type.text.toString(),
-                title = binding.title.text.toString(),
-                location = binding.location.text.toString(),
-                latitude = -34.0,
-                longitude = 151.0,
-                info = binding.info.text.toString(),
+        val inputLocation = binding.location.text.toString()
+        val geocode = Geocoder(this, Locale.getDefault())
+        try {
+            val result = geocode.getFromLocationName(inputLocation, 1)
+
+            if (result == null || result.size == 0) {
+                Toast.makeText(this, "Location '$inputLocation' not found", Toast.LENGTH_LONG).show()
+                return
+            }
+
+            animalListViewModel.insert(
+                Animal(
+                    id = UUID.randomUUID().toString(),
+                    helper_uid = currentUserUID,
+                    type = binding.type.text.toString(),
+                    title = binding.title.text.toString(),
+                    location = result[0].getAddressLine(0),
+                    latitude = result[0].latitude,
+                    longitude = result[0].longitude,
+                    info = binding.info.text.toString(),
+                )
             )
-        )
-        finish()
+            finish()
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Location exception: $e", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun observeViewModel() {}
