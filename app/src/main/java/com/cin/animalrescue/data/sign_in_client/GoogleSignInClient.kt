@@ -1,4 +1,4 @@
-package com.cin.animalrescue.data.auth
+package com.cin.animalrescue.data.sign_in_client
 
 import android.content.Context
 import android.content.Intent
@@ -28,7 +28,6 @@ class GoogleSignInClient(ctx: Context) : SignInClient {
     }
 
     override fun signOut() {
-        // TODO return feedback
         googleSignInClient.signOut()
     }
 
