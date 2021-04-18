@@ -6,6 +6,8 @@ data class Animal(
     var type: String,
     var title: String,
     val location: String,
+    val latitude: Double,
+    val longitude: Double,
     var info: String
 ) {
     override fun toString(): String {

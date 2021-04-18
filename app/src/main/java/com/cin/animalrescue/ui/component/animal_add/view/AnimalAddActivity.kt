@@ -43,6 +43,8 @@ class AnimalAddActivity : BaseActivity() {
                     type = "type_$smallID",
                     title = "title_$smallID",
                     location = "location_$smallID",
+                    latitude = -34.0,
+                    longitude = 151.0,
                     info = "info_$smallID"
                 )
             )
@@ -57,6 +59,8 @@ class AnimalAddActivity : BaseActivity() {
                 type = binding.type.text.toString(),
                 title = binding.title.text.toString(),
                 location = binding.location.text.toString(),
+                latitude = -34.0,
+                longitude = 151.0,
                 info = binding.info.text.toString(),
             )
         )

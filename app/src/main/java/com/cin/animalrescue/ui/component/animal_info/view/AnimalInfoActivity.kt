@@ -15,6 +15,8 @@ class AnimalInfoActivity : BaseActivity() {
     private lateinit var binding: ActivityAnimalInfoBinding
     private lateinit var id: String
     private lateinit var location: String
+    private lateinit var latitude: String
+    private lateinit var longitude: String
 
     override fun initViewBinding() {
         binding = ActivityAnimalInfoBinding.inflate(layoutInflater)
@@ -25,6 +27,8 @@ class AnimalInfoActivity : BaseActivity() {
         binding.btnMaps.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
                 .putExtra("location", location)
+                .putExtra("latitude", latitude)
+                .putExtra("longitude", longitude)
             startActivity(intent)
         }
     }
@@ -39,6 +43,8 @@ class AnimalInfoActivity : BaseActivity() {
         binding.type.text = animal.type
         binding.info.text = animal.info
         location = animal.location
+        latitude = animal.latitude.toString()
+        longitude = animal.longitude.toString()
         binding.location.text = location
     }
 }

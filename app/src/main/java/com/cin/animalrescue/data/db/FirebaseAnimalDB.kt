@@ -75,12 +75,14 @@ class FirebaseAnimalDB : AnimalRepositorySource {
 
     private fun createAnimalFromData(data: Map<String, Any>): Animal {
         return Animal(
-            data["id"].toString(),
-            data["helper_uid"].toString(),
-            data["type"].toString(),
-            data["title"].toString(),
-            data["location"].toString(),
-            data["info"].toString(),
+            id = data["id"].toString(),
+            helper_uid = data["helper_uid"].toString(),
+            type = data["type"].toString(),
+            title = data["title"].toString(),
+            location = data["location"].toString(),
+            latitude = data["latitude"].toString().toDouble(),
+            longitude=  data["longitude"].toString().toDouble(),
+            info =data["info"].toString(),
         )
     }
 }
