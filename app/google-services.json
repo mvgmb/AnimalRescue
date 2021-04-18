@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "61740381407-ml46214nk7gdfkm71m0but73osjael1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cin.animalrescue",
+            "certificate_hash": "5df77dee9bf849acd7a6edf3a02f6689864b8e5f"
+          }
+        },
+        {
           "client_id": "61740381407-ukbu29uois2eeqbk982t3pklhcsjglus.apps.googleusercontent.com",
           "client_type": 3
         }
