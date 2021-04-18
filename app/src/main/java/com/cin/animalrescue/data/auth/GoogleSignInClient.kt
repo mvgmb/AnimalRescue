@@ -3,9 +3,8 @@ package com.cin.animalrescue.data.auth
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import com.cin.animalrescue.R
-import com.cin.animalrescue.data.AuthApi
+import com.cin.animalrescue.data.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -13,7 +12,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 
-class GoogleAuthApi(ctx: Context) : AuthApi {
+class GoogleSignInClient(ctx: Context) : SignInClient {
     private var googleSignInClient: GoogleSignInClient
 
     init {

@@ -13,7 +13,7 @@
         android:textAlignment="center" />
 
     <TextView
-        android:id="@+id/helper"
+        android:id="@+id/helper_uid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center" />

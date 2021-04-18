@@ -35,7 +35,7 @@ class AnimalInfoActivity : BaseActivity() {
 
     private fun handleGetAnimalById(animal: Animal) {
         binding.title.text = animal.title
-        binding.helper.text = animal.helper
+        binding.helperUid.text = animal.helper_uid
         binding.type.text = animal.type
         binding.info.text = animal.info
         location = animal.location
