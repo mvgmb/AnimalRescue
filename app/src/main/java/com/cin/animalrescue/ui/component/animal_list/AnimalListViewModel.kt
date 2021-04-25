@@ -1,4 +1,4 @@
-package com.cin.animalrescue.ui.component.animal_add.viewmodel
+package com.cin.animalrescue.ui.component.animal_list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,12 +10,16 @@ import com.cin.animalrescue.data.repository.AnimalRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AnimalAddViewModel(application: Application) : AndroidViewModel(application) {
+class AnimalListViewModel(application: Application) : AndroidViewModel(application) {
     private val repo: AnimalRepository = AnimalRepository(FirebaseAnimalDB())
 
-    fun insert(animal: Animal) {
+    fun getAll(): LiveData<List<Animal>> {
+        return repo.getAll()
+    }
+    
+    fun getByType(type: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            repo.insert(animal)
+            repo.getByType(type)
         }
     }
 }

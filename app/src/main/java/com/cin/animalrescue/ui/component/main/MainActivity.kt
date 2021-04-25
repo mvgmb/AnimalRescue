@@ -1,12 +1,12 @@
-package com.cin.animalrescue.ui.component.main.view
+package com.cin.animalrescue.ui.component.main
 
 import android.content.Intent
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.auth.FirebaseAuthApi
 import com.cin.animalrescue.databinding.ActivityMainBinding
-import com.cin.animalrescue.ui.component.animal_add.view.AnimalAddActivity
-import com.cin.animalrescue.ui.component.animal_list.view.AnimalListActivity
-import com.cin.animalrescue.ui.component.signin.view.AuthActivity
+import com.cin.animalrescue.ui.component.animal_add.AnimalAddActivity
+import com.cin.animalrescue.ui.component.animal_list.AnimalListActivity
+import com.cin.animalrescue.ui.component.signin.AuthActivity
 import com.task.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {

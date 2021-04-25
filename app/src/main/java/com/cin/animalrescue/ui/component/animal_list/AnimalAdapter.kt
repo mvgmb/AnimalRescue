@@ -1,4 +1,4 @@
-package com.cin.animalrescue.ui.component.animal_list.adapter
+package com.cin.animalrescue.ui.component.animal_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

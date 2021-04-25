@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimalRescue">
-        <activity android:name=".ui.component.signin.view.AuthActivity"></activity>
+        <activity android:name=".ui.component.signin.AuthActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,12 +31,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.component.map.view.MapsActivity"
+            android:name=".ui.component.map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ui.component.animal_add.view.AnimalAddActivity" />
-        <activity android:name=".ui.component.animal_info.view.AnimalInfoActivity" />
-        <activity android:name=".ui.component.animal_list.view.AnimalListActivity" />
-        <activity android:name=".ui.component.main.view.MainActivity">
+        <activity android:name=".ui.component.animal_add.AnimalAddActivity" />
+        <activity android:name=".ui.component.animal_info.AnimalInfoActivity" />
+        <activity android:name=".ui.component.animal_list.AnimalListActivity" />
+        <activity android:name=".ui.component.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

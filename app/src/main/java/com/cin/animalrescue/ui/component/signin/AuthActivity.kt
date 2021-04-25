@@ -1,4 +1,4 @@
-package com.cin.animalrescue.ui.component.signin.view
+package com.cin.animalrescue.ui.component.signin
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.auth.FirebaseAuthApi
 import com.cin.animalrescue.databinding.ActivityAuthBinding
-import com.cin.animalrescue.ui.component.main.view.MainActivity
+import com.cin.animalrescue.ui.component.main.MainActivity
 import com.google.android.gms.common.api.ApiException
 import com.task.ui.base.BaseActivity
 import kotlinx.coroutines.*

@@ -5,9 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AnimalRepositorySource
 import com.cin.animalrescue.data.model.Animal
-import com.cin.animalrescue.ui.component.animal_list.view.AnimalListActivity
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage

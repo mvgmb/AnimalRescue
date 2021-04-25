@@ -1,4 +1,4 @@
-package com.cin.animalrescue.ui.component.animal_add.view
+package com.cin.animalrescue.ui.component.animal_add
 
 import android.Manifest
 import android.app.Activity
@@ -9,13 +9,11 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
-import com.cin.animalrescue.ui.component.animal_add.viewmodel.AnimalAddViewModel
-import com.cin.animalrescue.ui.component.signin.view.AuthActivity
+import com.cin.animalrescue.ui.component.signin.AuthActivity
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

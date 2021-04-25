@@ -1,9 +1,8 @@
-package com.cin.animalrescue.ui.component.map.view
+package com.cin.animalrescue.ui.component.map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import com.cin.animalrescue.R
 
 import com.google.android.gms.maps.CameraUpdateFactory

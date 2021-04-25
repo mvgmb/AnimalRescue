@@ -1,11 +1,10 @@
-package com.cin.animalrescue.ui.component.animal_info.view
+package com.cin.animalrescue.ui.component.animal_info
 
 import android.content.Intent
 import androidx.activity.viewModels
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalInfoBinding
-import com.cin.animalrescue.ui.component.animal_info.viewmodel.AnimalInfoViewModel
-import com.cin.animalrescue.ui.component.map.view.MapsActivity
+import com.cin.animalrescue.ui.component.map.MapsActivity
 import com.cin.animalrescue.utils.observe
 import com.task.ui.base.BaseActivity
 

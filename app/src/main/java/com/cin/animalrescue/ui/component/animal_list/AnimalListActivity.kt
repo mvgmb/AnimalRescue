@@ -1,13 +1,9 @@
-package com.cin.animalrescue.ui.component.animal_list.view
+package com.cin.animalrescue.ui.component.animal_list
 
 import androidx.activity.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalListBinding
-import com.cin.animalrescue.ui.component.animal_list.adapter.AnimalAdapter
-import com.cin.animalrescue.ui.component.animal_list.viewmodel.AnimalListViewModel
 import com.cin.animalrescue.utils.observe
 import com.task.ui.base.BaseActivity
 

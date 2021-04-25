@@ -1,11 +1,10 @@
-package com.cin.animalrescue.ui.component.animal_list.adapter
+package com.cin.animalrescue.ui.component.animal_list
 
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.AnimalCardBinding
-import com.cin.animalrescue.ui.component.animal_info.view.AnimalInfoActivity
-import com.cin.animalrescue.ui.component.main.view.MainActivity
+import com.cin.animalrescue.ui.component.animal_info.AnimalInfoActivity
 
 class AnimalViewHolder(private val binding: AnimalCardBinding) :
     RecyclerView.ViewHolder(binding.root) {
