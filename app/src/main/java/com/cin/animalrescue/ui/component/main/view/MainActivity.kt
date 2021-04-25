@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authApi = FirebaseAuthApi(this)
+        authApi = FirebaseAuthApi()
 
         binding.btnAnimalList.setOnClickListener {
             startActivity(Intent(this, AnimalListActivity::class.java))

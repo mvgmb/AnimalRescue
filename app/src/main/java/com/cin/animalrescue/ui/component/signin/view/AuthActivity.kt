@@ -22,7 +22,7 @@ class AuthActivity : BaseActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authApi = FirebaseAuthApi(this)
+        authApi = FirebaseAuthApi()
 
         bindUIs()
     }
@@ -37,7 +37,7 @@ class AuthActivity : BaseActivity() {
         }
 
         binding.btnSignOut.setOnClickListener {
-            authApi.signOut()
+            authApi.signOut(this)
             binding.user.text = authApi.getUserName()
         }
     }
@@ -50,7 +50,7 @@ class AuthActivity : BaseActivity() {
         }
 
     private fun signIn() {
-        val intent = authApi.getSignInIntent()
+        val intent = authApi.getSignInIntent(this)
         register.launch(intent)
     }
 

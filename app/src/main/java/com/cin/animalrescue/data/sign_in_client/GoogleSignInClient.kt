@@ -12,23 +12,14 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 
-class GoogleSignInClient(ctx: Context) : SignInClient {
-    private var googleSignInClient: GoogleSignInClient
+class GoogleSignInClient() : SignInClient {
 
-    init {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(ctx.getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(ctx, gso)
+    override fun getSignInIntent(ctx: Context): Intent {
+        return getClient(ctx).signInIntent
     }
 
-    override fun getSignInIntent(): Intent {
-        return googleSignInClient.signInIntent
-    }
-
-    override fun signOut() {
-        googleSignInClient.signOut()
+    override fun signOut(ctx: Context) {
+        getClient(ctx).signOut()
     }
 
     override fun getFirebaseAuthCredentialFromIntent(intent: Intent?): AuthCredential {
@@ -41,5 +32,13 @@ class GoogleSignInClient(ctx: Context) : SignInClient {
             Log.e("MY_TAG", "Exception: $e")
             throw e
         }
+    }
+
+    private fun getClient(ctx: Context): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(ctx.getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        return GoogleSignIn.getClient(ctx, gso)
     }
 }

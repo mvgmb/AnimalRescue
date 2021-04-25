@@ -8,11 +8,11 @@ import com.cin.animalrescue.data.sign_in_client.GoogleSignInClient
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class FirebaseAuthApi(ctx: Context) : AuthApi {
-    private val signInClient: SignInClient = GoogleSignInClient(ctx)
+class FirebaseAuthApi() : AuthApi {
+    private val signInClient: SignInClient = GoogleSignInClient()
 
-    override fun getSignInIntent(): Intent {
-        return signInClient.getSignInIntent()
+    override fun getSignInIntent(ctx: Context): Intent {
+        return signInClient.getSignInIntent(ctx)
     }
 
     override fun signIn(intent: Intent?) {
@@ -29,9 +29,9 @@ class FirebaseAuthApi(ctx: Context) : AuthApi {
 //            }
     }
 
-    override fun signOut() {
+    override fun signOut(ctx: Context) {
         Firebase.auth.signOut()
-        signInClient.signOut()
+        signInClient.signOut(ctx)
     }
 
     override fun isSignedIn(): Boolean {
