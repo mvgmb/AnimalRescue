@@ -5,10 +5,11 @@ data class Animal(
     var helper_uid: String,
     var type: String,
     var title: String,
-    val location: String,
-    val latitude: Double,
-    val longitude: Double,
-    var info: String
+    var location: String,
+    var latitude: Double,
+    var longitude: Double,
+    var info: String,
+    var image_uri: String,
 ) {
     override fun toString(): String {
         return title

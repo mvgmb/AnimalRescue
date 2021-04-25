@@ -1,5 +1,6 @@
 package com.cin.animalrescue.data.db
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -51,14 +52,23 @@ class FirebaseAnimalDB : AnimalRepositorySource {
     }
 
     override suspend fun insert(animal: Animal) {
-        db.collection("animals")
-            .document(animal.id)
-            .set(animal)
-            .addOnSuccessListener { documentReference ->
-                Log.i("MY_TAG", "DocumentSnapshot added with ID: ${animal.id}")
+        val file = Uri.parse(animal.image_uri)
+        val storageRef = storage.reference.child("images/${animal.id}")
+
+        storageRef.putFile(file)
+            .addOnSuccessListener { taskSnapshot ->
+                db.collection("animals")
+                    .document(animal.id)
+                    .set(animal)
+                    .addOnSuccessListener { documentReference ->
+                        Log.i("MY_TAG", "DocumentSnapshot added with ID: ${animal.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("MY_TAG", "Error inserting document: $e")
+                    }
             }
             .addOnFailureListener { e ->
-                Log.e("MY_TAG", "Error inserting document: $e")
+                Log.e("MY_TAG", e.toString())
             }
     }
 
@@ -78,8 +88,9 @@ class FirebaseAnimalDB : AnimalRepositorySource {
             title = data["title"].toString(),
             location = data["location"].toString(),
             latitude = data["latitude"].toString().toDouble(),
-            longitude=  data["longitude"].toString().toDouble(),
-            info =data["info"].toString(),
+            longitude = data["longitude"].toString().toDouble(),
+            info = data["info"].toString(),
+            image_uri = data["image_uri"].toString(),
         )
     }
 }
