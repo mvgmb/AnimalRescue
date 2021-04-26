@@ -1,41 +1,46 @@
 package com.cin.animalrescue.data.db
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AnimalRepositorySource
 import com.cin.animalrescue.data.model.Animal
+import com.cin.animalrescue.vo.Resource
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
+import java.io.File
 
 class FirebaseAnimalDB : AnimalRepositorySource {
     val db = Firebase.firestore
 
     var storage: FirebaseStorage = Firebase.storage
 
-    override fun getById(id: String): LiveData<Animal> {
-        val res = MutableLiveData<Animal>()
+    override fun getById(id: String): LiveData<Resource<Animal>> {
+        val res = MutableLiveData<Resource<Animal>>()
+
         db.collection("animals")
             .document(id)
             .get()
             .addOnSuccessListener {
-                res.postValue(createAnimalFromData(it.data!!))
+                val animal = createAnimalFromData(it.data!!)
+                res.postValue(Resource.success(animal))
             }
             .addOnFailureListener { e ->
-                Log.e("MY_TAG", "Error getting document by ID: $e")
+                res.postValue(Resource.error(e.toString(), null))
             }
+
         return res
     }
 
-    override fun getByType(type: String): LiveData<List<Animal>> {
+    override fun getByType(type: String): LiveData<Resource<List<Animal>>> {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): LiveData<List<Animal>> {
-        val res = MutableLiveData<List<Animal>>()
+    override fun getAll(): LiveData<Resource<List<Animal>>> {
+        val res = MutableLiveData<Resource<List<Animal>>>()
+
         db.collection("animals")
             .get()
             .addOnSuccessListener { result ->
@@ -43,40 +48,65 @@ class FirebaseAnimalDB : AnimalRepositorySource {
                 result.map {
                     animalMutableList.add(createAnimalFromData(it.data))
                 }
-                res.postValue(animalMutableList)
+                res.postValue(Resource.success(animalMutableList))
             }
             .addOnFailureListener { e ->
-                Log.e("MY_TAG", "Error getting all documents: $e")
+                res.postValue(Resource.error(e.toString(), null))
             }
+
         return res
     }
 
-    override suspend fun insert(animal: Animal) {
-        val file = Uri.parse(animal.image_uri)
-        val storageRef = storage.reference.child("images/${animal.id}")
+    override fun getAnimalImage(id: String): LiveData<Resource<Uri>> {
+        val res = MutableLiveData<Resource<Uri>>()
 
-        storageRef.putFile(file)
-            .addOnSuccessListener { taskSnapshot ->
-                db.collection("animals")
-                    .document(animal.id)
-                    .set(animal)
-                    .addOnSuccessListener { documentReference ->
-                        Log.i("MY_TAG", "DocumentSnapshot added with ID: ${animal.id}")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("MY_TAG", "Error inserting document: $e")
-                    }
+        val storageReference = Firebase.storage.reference.child("images/$id")
+        val localFile = File.createTempFile(id, "jpg")
+        storageReference.getFile(localFile)
+            .addOnSuccessListener {
+                val animalImageUri = Uri.fromFile(localFile)
+                res.postValue(Resource.success(animalImageUri))
+            }.addOnFailureListener { e ->
+                res.postValue(Resource.error(e.toString(), null))
+            }
+
+        return res
+    }
+
+    // TODO refactor: extract functions
+    override fun insert(animal: Animal): LiveData<Resource<Boolean>> {
+        val res = MutableLiveData<Resource<Boolean>>()
+
+        db.collection("animals")
+            .document(animal.id)
+            .set(animal)
+            .addOnSuccessListener {
+                uploadAnimalImage(animal, res)
             }
             .addOnFailureListener { e ->
-                Log.e("MY_TAG", e.toString())
+                res.postValue(Resource.error("Failed to insert animal: $e", null))
+            }
+
+        return res
+    }
+
+    private fun uploadAnimalImage(animal: Animal, res: MutableLiveData<Resource<Boolean>>) {
+        val file = Uri.parse(animal.image_uri)
+        val storageRef = storage.reference.child("images/${animal.id}")
+        storageRef.putFile(file)
+            .addOnSuccessListener {
+                res.postValue(Resource.success(true))
+            }
+            .addOnFailureListener { e ->
+                res.postValue(Resource.error("Failed to upload animal image: $e", null))
             }
     }
 
-    override suspend fun update(animal: Animal) {
+    override fun update(animal: Animal): LiveData<Resource<Boolean>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun remove(animal: Animal) {
+    override fun remove(animal: Animal): LiveData<Resource<Boolean>> {
         TODO("Not yet implemented")
     }
 

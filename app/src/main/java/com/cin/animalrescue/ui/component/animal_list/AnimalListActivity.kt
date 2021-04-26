@@ -1,10 +1,14 @@
 package com.cin.animalrescue.ui.component.animal_list
 
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalListBinding
+import com.cin.animalrescue.utils.Logger
 import com.cin.animalrescue.utils.observe
+import com.cin.animalrescue.utils.observeOnce
+import com.cin.animalrescue.vo.Resource
 import com.task.ui.base.BaseActivity
 
 class AnimalListActivity : BaseActivity() {
@@ -27,10 +31,22 @@ class AnimalListActivity : BaseActivity() {
     }
 
     override fun observeViewModel() {
-        observe(animalListViewModel.getAll(), ::handleGetAllResult)
+        observeOnce(animalListViewModel.getAll(), ::handleGetAllResult)
     }
 
-    private fun handleGetAllResult(list: List<Animal>) {
-        animalAdapter.submitList(list.toList())
+    private fun handleGetAllResult(resource: Resource<List<Animal>>) {
+        if (resource.isSuccess()) {
+            val list = resource.data
+            animalAdapter.submitList(list?.toList())
+        } else {
+            Logger.logError(resource.message.toString())
+
+            // TODO improve image error to user
+            Toast.makeText(
+                this,
+                "Failed to get all animals list: ${resource.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

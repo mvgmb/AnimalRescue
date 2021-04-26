@@ -10,8 +10,8 @@ import androidx.appcompat.widget.PopupMenu
 import com.cin.animalrescue.R
 
 abstract class BaseActivity : AppCompatActivity() {
-    abstract fun observeViewModel()
     protected abstract fun initViewBinding()
+    abstract fun observeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

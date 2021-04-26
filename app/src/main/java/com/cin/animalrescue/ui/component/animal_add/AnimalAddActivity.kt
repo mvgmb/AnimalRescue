@@ -14,6 +14,9 @@ import androidx.activity.viewModels
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
 import com.cin.animalrescue.ui.component.signin.AuthActivity
+import com.cin.animalrescue.utils.Logger
+import com.cin.animalrescue.utils.observe
+import com.cin.animalrescue.utils.observeOnce
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -126,6 +129,7 @@ class AnimalAddActivity : BaseActivity() {
             val result = geocode.getFromLocationName(inputLocation, 1)
 
             if (result == null || result.size == 0) {
+                Logger.logError("Location '$inputLocation' not found")
                 Toast.makeText(
                     this,
                     "Location '$inputLocation' not found",
@@ -134,21 +138,30 @@ class AnimalAddActivity : BaseActivity() {
                 return
             }
 
-            animalListViewModel.insert(
-                Animal(
-                    id = UUID.randomUUID().toString(),
-                    helper_uid = currentUserUID,
-                    type = binding.type.text.toString(),
-                    title = binding.title.text.toString(),
-                    location = result[0].getAddressLine(0),
-                    latitude = result[0].latitude,
-                    longitude = result[0].longitude,
-                    info = binding.info.text.toString(),
-                    image_uri = imageUri.toString(),
+            observeOnce(
+                animalListViewModel.insert(
+                    Animal(
+                        id = UUID.randomUUID().toString(),
+                        helper_uid = currentUserUID,
+                        type = binding.type.text.toString(),
+                        title = binding.title.text.toString(),
+                        location = result[0].getAddressLine(0),
+                        latitude = result[0].latitude,
+                        longitude = result[0].longitude,
+                        info = binding.info.text.toString(),
+                        image_uri = imageUri.toString(),
+                    )
                 )
-            )
-            finish()
+            ) {
+                if (it.isSuccess()) {
+                    finish()
+                } else {
+                    Logger.logError(it.message.toString())
+                }
+            }
+
         } catch (e: Exception) {
+            // TODO standardize exception handling
             Toast.makeText(this, "Location exception: $e", Toast.LENGTH_LONG).show()
         }
     }

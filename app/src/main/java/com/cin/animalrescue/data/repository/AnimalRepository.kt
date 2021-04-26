@@ -1,39 +1,45 @@
 package com.cin.animalrescue.data.repository
 
+import android.net.Uri
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AnimalRepositorySource
 import com.cin.animalrescue.data.model.Animal
+import com.cin.animalrescue.vo.Resource
 
 class AnimalRepository(private val animalRepositorySource: AnimalRepositorySource) {
     @WorkerThread
-    fun getById(id: String): LiveData<Animal> {
+    fun getById(id: String): LiveData<Resource<Animal>> {
         return animalRepositorySource.getById(id)
     }
 
     @WorkerThread
-    fun getByType(type: String): LiveData<List<Animal>> {
+    fun getAnimalImage(id: String): LiveData<Resource<Uri>> {
+        return animalRepositorySource.getAnimalImage(id)
+    }
+
+    @WorkerThread
+    fun getByType(type: String): LiveData<Resource<List<Animal>>> {
         return animalRepositorySource.getByType(type)
     }
 
     @WorkerThread
-    fun getAll(): LiveData<List<Animal>> {
+    fun getAll(): LiveData<Resource<List<Animal>>> {
         return animalRepositorySource.getAll()
     }
 
     @WorkerThread
-    suspend fun insert(animal: Animal) {
-        animalRepositorySource.insert(animal)
+    fun insert(animal: Animal): LiveData<Resource<Boolean>> {
+        return animalRepositorySource.insert(animal)
     }
 
     @WorkerThread
-    suspend fun update(animal: Animal) {
-        animalRepositorySource.update(animal)
+    fun update(animal: Animal): LiveData<Resource<Boolean>> {
+        return animalRepositorySource.update(animal)
     }
 
     @WorkerThread
-    suspend fun remove(animal: Animal) {
-        animalRepositorySource.remove(animal)
+    fun remove(animal: Animal): LiveData<Resource<Boolean>> {
+        return animalRepositorySource.remove(animal)
     }
 }
