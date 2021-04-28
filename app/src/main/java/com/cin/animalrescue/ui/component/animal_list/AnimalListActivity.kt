@@ -36,7 +36,12 @@ class AnimalListActivity : BaseActivity() {
         setContentView(binding.root)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        getLastLocation()
+        if(checkPermissions()) {
+            getLocation()
+        } else {
+            requestPermission()
+            getLocation()
+        }
 
         animalAdapter = AnimalAdapter(layoutInflater)
 
@@ -51,17 +56,11 @@ class AnimalListActivity : BaseActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
+    private fun getLocation() {
         if(checkPermissions()) {
             if(isLocationEnabled()) {
                 fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
-                    var location:Location? = task.result
-
-                    if(location == null) {
-                        getNewLocation()
-                    } else {
-                        binding.LocationTest.text = "your coordinates are lat:" + location.latitude + "long:" + location.longitude
-                    }
+                    getNewLocation()
                 }
             } else {
                 Toast.makeText(this, "Please enable your location service", Toast.LENGTH_SHORT).show()
