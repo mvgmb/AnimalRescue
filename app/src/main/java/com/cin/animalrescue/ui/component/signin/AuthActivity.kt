@@ -6,11 +6,14 @@ import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.cin.animalrescue.R
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.auth.FirebaseAuthApi
 import com.cin.animalrescue.databinding.ActivityAuthBinding
 import com.cin.animalrescue.ui.component.main.MainActivity
+import com.cin.animalrescue.utils.handleMenuItemClick
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_SELECTED
 import com.task.ui.base.BaseActivity
 import kotlinx.coroutines.*
 
@@ -30,7 +33,10 @@ class AuthActivity : BaseActivity() {
     override fun observeViewModel() {}
 
     private fun bindUIs() {
+        binding.bottomNavigation.labelVisibilityMode
         binding.user.text = authApi.getUserName()
+
+        binding.bottomNavigation.selectedItemId = R.id.user
 
         binding.btnSignIn.setOnClickListener {
             signIn()
@@ -39,6 +45,10 @@ class AuthActivity : BaseActivity() {
         binding.btnSignOut.setOnClickListener {
             authApi.signOut(this)
             binding.user.text = authApi.getUserName()
+        }
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            handleMenuItemClick(this, item)
         }
     }
 

@@ -1,12 +1,15 @@
 package com.cin.animalrescue.ui.component.main
 
 import android.content.Intent
+import android.widget.Toast
+import com.cin.animalrescue.R
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.auth.FirebaseAuthApi
 import com.cin.animalrescue.databinding.ActivityMainBinding
 import com.cin.animalrescue.ui.component.animal_add.AnimalAddActivity
 import com.cin.animalrescue.ui.component.animal_list.AnimalListActivity
 import com.cin.animalrescue.ui.component.signin.AuthActivity
+import com.cin.animalrescue.utils.handleMenuItemClick
 import com.task.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {
@@ -29,6 +32,10 @@ class MainActivity : BaseActivity() {
 
         binding.btnAuth.setOnClickListener {
             startActivity(Intent(this, AuthActivity::class.java))
+        }
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            handleMenuItemClick(this, item)
         }
     }
 

@@ -15,13 +15,11 @@ import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
 import com.cin.animalrescue.ui.component.signin.AuthActivity
 import com.cin.animalrescue.utils.Logger
-import com.cin.animalrescue.utils.observe
 import com.cin.animalrescue.utils.observeOnce
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.task.ui.base.BaseActivity
-import java.lang.Exception
 import java.util.*
 
 class AnimalAddActivity : BaseActivity() {

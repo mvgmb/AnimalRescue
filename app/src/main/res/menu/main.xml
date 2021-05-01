@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_user"
+        android:id="@+id/animal_list"
+        android:icon="@drawable/ic_baseline_pets_24"
+        android:title="Animais"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/my_animal_list"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="Favoritados"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/animal_add"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="Adicionar"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/user"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="@string/user"
+        android:title="Usuário"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_baseline_search_24"
-        android:title="@string/search"
-        app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom" />
+
+    <!--    <item-->
+    <!--        android:id="@+id/action_search"-->
+    <!--        android:icon="@drawable/ic_baseline_search_24"-->
+    <!--        android:title="@string/search"-->
+    <!--        app:actionViewClass="android.widget.SearchView"-->
+    <!--        app:showAsAction="ifRoom" />-->
 </menu>
