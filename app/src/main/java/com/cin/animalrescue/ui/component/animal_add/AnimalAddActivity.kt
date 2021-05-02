@@ -72,6 +72,10 @@ class AnimalAddActivity : BaseActivity() {
 
         binding.bottomNavigation.selectedItemId = R.id.animal_add
 
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            handleMenuItemClick(this, item)
+        }
+
         // TODO remove when finish project
         binding.btnTest.setOnClickListener {
             val id = UUID.randomUUID().toString()
@@ -89,13 +93,6 @@ class AnimalAddActivity : BaseActivity() {
                     image_uri = imageUri.toString(),
                 )
             )
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            handleMenuItemClick(this, item)
         }
     }
 

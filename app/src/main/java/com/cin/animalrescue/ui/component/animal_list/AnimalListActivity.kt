@@ -38,6 +38,10 @@ class AnimalListActivity : BaseActivity() {
         }
 
         binding.bottomNavigation.selectedItemId = R.id.animal_list
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            handleMenuItemClick(this, item)
+        }
     }
 
     private fun setRecyclerViewMarginAsBottomNavHeight() {
@@ -45,13 +49,6 @@ class AnimalListActivity : BaseActivity() {
         params.setMargins(0, 0, 0, binding.bottomNavigation.height)
         binding.recyclerView.layoutParams = params
         binding.recyclerView.requestLayout()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            handleMenuItemClick(this, item)
-        }
     }
 
     override fun observeViewModel() {
