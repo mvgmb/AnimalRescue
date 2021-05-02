@@ -19,6 +19,7 @@ import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
 import com.cin.animalrescue.utils.Logger
 import com.cin.animalrescue.utils.handleMenuItemClick
+import com.cin.animalrescue.utils.observe
 import com.cin.animalrescue.utils.observeOnce
 import com.task.ui.base.BaseActivity
 import java.util.*
@@ -27,7 +28,6 @@ class AnimalAddActivity : BaseActivity() {
     private val animalListViewModel: AnimalAddViewModel by viewModels()
 
     private lateinit var binding: ActivityAnimalAddBinding
-    private var imageUri: Uri? = null
 
     companion object {
         private val CAMERA_PERMISSION = Manifest.permission.CAMERA
@@ -71,7 +71,11 @@ class AnimalAddActivity : BaseActivity() {
         binding.scrollView.requestLayout()
     }
 
-    override fun observeViewModel() {}
+    override fun observeViewModel() {
+        observe(animalListViewModel.animalImageURI) {
+            binding.imageView.setImageURI(it)
+        }
+    }
 
     private fun requestOpenCamera() {
         requestPermissions(OPEN_CAMERA_PERMISSIONS, OPEN_CAMERA_REQUEST_CODE)
@@ -106,7 +110,9 @@ class AnimalAddActivity : BaseActivity() {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New Picture")
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the camera")
-        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        animalListViewModel.setAnimalImageUri(imageUri!!)
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             .putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
@@ -115,7 +121,7 @@ class AnimalAddActivity : BaseActivity() {
 
     private fun handleCameraActivityResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
-            binding.imageView.setImageURI(imageUri)
+            animalListViewModel.refreshAnimalImageUri()
         }
     }
 
@@ -162,7 +168,7 @@ class AnimalAddActivity : BaseActivity() {
             latitude = result[0].latitude,
             longitude = result[0].longitude,
             info = binding.info.text.toString(),
-            image_uri = imageUri.toString(),
+            image_uri = animalListViewModel.animalImageURI.toString(),
         )
         observeOnce(animalListViewModel.insert(animal)) { resource ->
             if (resource.isSuccess()) {
