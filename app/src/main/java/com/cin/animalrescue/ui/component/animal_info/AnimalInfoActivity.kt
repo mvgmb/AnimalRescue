@@ -26,7 +26,9 @@ class AnimalInfoActivity : BaseActivity() {
         setContentView(binding.root)
 
         id = intent.getStringExtra("id").toString()
+    }
 
+    override fun setBindings() {
         binding.btnMaps.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
                 .putExtra("location", location)

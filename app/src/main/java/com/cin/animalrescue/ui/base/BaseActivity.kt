@@ -11,11 +11,13 @@ import com.cin.animalrescue.R
 
 abstract class BaseActivity : AppCompatActivity() {
     protected abstract fun initViewBinding()
+    abstract fun setBindings()
     abstract fun observeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewBinding()
+        setBindings()
         observeViewModel()
     }
 }

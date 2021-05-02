@@ -11,10 +11,13 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.cin.animalrescue.R
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
-import com.cin.animalrescue.ui.component.signin.AuthActivity
+import com.cin.animalrescue.ui.component.user.UserActivity
 import com.cin.animalrescue.utils.Logger
+import com.cin.animalrescue.utils.handleMenuItemClick
 import com.cin.animalrescue.utils.observeOnce
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -25,7 +28,6 @@ import java.util.*
 class AnimalAddActivity : BaseActivity() {
     private lateinit var binding: ActivityAnimalAddBinding
     private val animalListViewModel: AnimalAddViewModel by viewModels()
-    private var i: Int = 0
     private var currentUser: FirebaseUser? = null
     private lateinit var currentUserUID: String
     private val PERMISSION_CODE = 1000
@@ -39,12 +41,16 @@ class AnimalAddActivity : BaseActivity() {
         // TODO Remove Firebase direct call
         currentUser = Firebase.auth.currentUser
         if (currentUser == null) {
-            startActivity(Intent(this, AuthActivity::class.java))
+            startActivity(Intent(this, UserActivity::class.java))
             finish()
         }
         currentUserUID = currentUser!!.uid
+    }
 
-        binding.btnRegister.setOnClickListener { handleBtnRegisterClick() }
+    override fun setBindings() {
+        binding.btnRegister.setOnClickListener {
+            handleBtnRegisterClick()
+        }
 
         binding.btnTakePicture.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
@@ -59,6 +65,12 @@ class AnimalAddActivity : BaseActivity() {
                 openCamera()
             }
         }
+
+        binding.bottomNavigation.post {
+            setScrollViewViewMarginAsBottomNavHeight()
+        }
+
+        binding.bottomNavigation.selectedItemId = R.id.animal_add
 
         // TODO remove when finish project
         binding.btnTest.setOnClickListener {
@@ -80,7 +92,21 @@ class AnimalAddActivity : BaseActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            handleMenuItemClick(this, item)
+        }
+    }
+
     override fun observeViewModel() {}
+
+    private fun setScrollViewViewMarginAsBottomNavHeight() {
+        val params = ConstraintLayout.LayoutParams(binding.scrollView.layoutParams)
+        params.setMargins(0, 0, 0, binding.bottomNavigation.height)
+        binding.scrollView.layoutParams = params
+        binding.scrollView.requestLayout()
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

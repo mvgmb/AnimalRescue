@@ -10,4 +10,5 @@ interface AuthApi {
     fun isSignedIn(): Boolean
     fun getUserUID(): String?
     fun getUserName(): String?
+    fun getUserEmail(): String?
 }

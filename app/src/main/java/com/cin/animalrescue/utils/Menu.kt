@@ -7,28 +7,35 @@ import android.widget.Toast
 import com.cin.animalrescue.R
 import com.cin.animalrescue.ui.component.animal_add.AnimalAddActivity
 import com.cin.animalrescue.ui.component.animal_list.AnimalListActivity
-import com.cin.animalrescue.ui.component.signin.AuthActivity
+import com.cin.animalrescue.ui.component.user.UserActivity
 
-fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean =
+fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean {
+    Logger.logInfo(ctx.toString())
     when (item.itemId) {
         R.id.animal_add -> {
             ctx.startActivity(Intent(ctx, AnimalAddActivity::class.java))
-            true
+            ctx.finish()
+            return true
         }
         R.id.animal_list -> {
-            ctx.startActivity(Intent(ctx, AnimalListActivity::class.java))
+            try {
+                ctx.startActivity(Intent(ctx, AnimalListActivity::class.java))
+            } catch (e: Exception) {
+                Toast.makeText(ctx, e.toString(), Toast.LENGTH_SHORT).show()
+            }
             ctx.finish()
-            true
+            return true
         }
         R.id.my_animal_list -> {
             Toast.makeText(ctx, "Not implemented", Toast.LENGTH_SHORT).show()
 //            ctx.finish()
-            true
+            return false
         }
         R.id.user -> {
-            ctx.startActivity(Intent(ctx, AuthActivity::class.java))
+            ctx.startActivity(Intent(ctx, UserActivity::class.java))
             ctx.finish()
-            true
+            return true
         }
-        else -> false
+        else -> return false
     }
+}

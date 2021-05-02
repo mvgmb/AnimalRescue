@@ -45,4 +45,8 @@ class FirebaseAuthApi() : AuthApi {
     override fun getUserName(): String? {
         return Firebase.auth.currentUser?.displayName
     }
+
+    override fun getUserEmail(): String? {
+        return Firebase.auth.currentUser?.email
+    }
 }
