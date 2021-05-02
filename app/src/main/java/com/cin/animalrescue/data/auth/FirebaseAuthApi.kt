@@ -2,9 +2,12 @@ package com.cin.animalrescue.data.auth
 
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.SignInClient
 import com.cin.animalrescue.data.sign_in_client.GoogleSignInClient
+import com.cin.animalrescue.vo.Resource
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -15,18 +18,19 @@ class FirebaseAuthApi() : AuthApi {
         return signInClient.getSignInIntent(ctx)
     }
 
-    override fun signIn(intent: Intent?) {
+    override fun signIn(intent: Intent?): LiveData<Resource<Boolean>> {
+        val res = MutableLiveData<Resource<Boolean>>()
+
         val credential = signInClient.getFirebaseAuthCredentialFromIntent(intent)
         Firebase.auth.signInWithCredential(credential)
+            .addOnSuccessListener {
+                res.postValue(Resource.success(true))
+            }
+            .addOnFailureListener { e ->
+                res.postValue(Resource.error(e.toString(), null))
+            }
 
-        // TODO check if this code is necessary
-//            .addOnCompleteListener(this) { task ->
-//                if (task.isSuccessful) {
-//                    Toast.makeText(this, "Sign In Complete!", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
-//                }
-//            }
+        return res
     }
 
     override fun signOut(ctx: Context) {

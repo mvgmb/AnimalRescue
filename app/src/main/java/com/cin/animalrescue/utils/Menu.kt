@@ -9,13 +9,12 @@ import com.cin.animalrescue.ui.component.animal_add.AnimalAddActivity
 import com.cin.animalrescue.ui.component.animal_list.AnimalListActivity
 import com.cin.animalrescue.ui.component.user.UserActivity
 
-fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean {
-    Logger.logInfo(ctx.toString())
+fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean =
     when (item.itemId) {
         R.id.animal_add -> {
             ctx.startActivity(Intent(ctx, AnimalAddActivity::class.java))
             ctx.finish()
-            return true
+            true
         }
         R.id.animal_list -> {
             try {
@@ -24,18 +23,17 @@ fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean {
                 Toast.makeText(ctx, e.toString(), Toast.LENGTH_SHORT).show()
             }
             ctx.finish()
-            return true
+            true
         }
         R.id.my_animal_list -> {
             Toast.makeText(ctx, "Not implemented", Toast.LENGTH_SHORT).show()
 //            ctx.finish()
-            return false
+            false
         }
         R.id.user -> {
             ctx.startActivity(Intent(ctx, UserActivity::class.java))
             ctx.finish()
-            return true
+            true
         }
-        else -> return false
+        else -> false
     }
-}
