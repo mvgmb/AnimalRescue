@@ -2,9 +2,9 @@ package com.cin.animalrescue.data.sign_in_client
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.cin.animalrescue.R
 import com.cin.animalrescue.data.SignInClient
+import com.cin.animalrescue.utils.Logger
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -28,8 +28,7 @@ class GoogleSignInClient() : SignInClient {
             val account = task.getResult(ApiException::class.java)!!
             return GoogleAuthProvider.getCredential(account.idToken!!, null)
         } catch (e: ApiException) {
-            // TODO improve Logging
-            Log.e("MY_TAG", "Exception: $e")
+            Logger.error(e.toString())
             throw e
         }
     }

@@ -1,10 +1,9 @@
 package com.cin.animalrescue.ui.component.map
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.cin.animalrescue.R
-
+import com.cin.animalrescue.utils.Logger
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,8 +26,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             latitude = intent.getStringExtra("latitude").toString().toDouble()
             longitude = intent.getStringExtra("longitude").toString().toDouble()
         } catch (e: Exception) {
-            // TODO improve logging
-            Log.e("MY_TAG", "$e")
+            Logger.error(e.toString())
         }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment

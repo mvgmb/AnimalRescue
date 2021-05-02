@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -92,11 +91,15 @@ class AnimalAddActivity : BaseActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(this, "Permissão Negada", Toast.LENGTH_LONG).show()
+                    val msg = "Permissão Negada"
+                    Logger.info(msg)
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                 }
             }
             else -> {
-                Toast.makeText(this, "Houve algum erro", Toast.LENGTH_SHORT).show()
+                val msg = "Houve algum erro"
+                Logger.error(msg)
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -137,19 +140,17 @@ class AnimalAddActivity : BaseActivity() {
             val result = geocode.getFromLocationName(inputLocation, 1)
 
             if (result == null || result.size == 0) {
-                Logger.error("Location '$inputLocation' not found")
-                Toast.makeText(
-                    this,
-                    "Localização '$inputLocation' não foi encontrada",
-                    Toast.LENGTH_LONG
-                ).show()
+                val msg = "Localização '$inputLocation' não foi encontrada"
+                Logger.error(msg)
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                 return
             }
 
             insertAnimal(result)
         } catch (e: Exception) {
-            Logger.error(e.toString())
-            Toast.makeText(this, "Alguma coisa deu errada: $e", Toast.LENGTH_LONG).show()
+            val msg = e.toString()
+            Logger.error(msg)
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
         }
     }
 
