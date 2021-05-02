@@ -57,8 +57,9 @@ class AnimalListActivity : BaseActivity() {
 
     private fun handleGetAllResult(resource: Resource<List<Animal>>) {
         if (resource.isSuccess()) {
-            val list = resource.data
-            animalAdapter.submitList(list?.toList())
+            val list = resource.data?.toMutableList()
+            list?.sortBy { it.title }
+            animalAdapter.submitList(list)
         } else {
             Logger.logError(resource.message.toString())
 
