@@ -14,7 +14,7 @@ import com.cin.animalrescue.vo.Resource
 import com.task.ui.base.BaseActivity
 
 class MainActivity : BaseActivity() {
-    private val authApiViewModel: AuthViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
 
@@ -34,7 +34,7 @@ class MainActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (authApiViewModel.isSignedIn()) {
+        if (mainViewModel.isSignedIn()) {
             startActivity(Intent(this, AnimalListActivity::class.java))
             finish()
         }
@@ -48,13 +48,13 @@ class MainActivity : BaseActivity() {
     )
 
     private fun signIn() {
-        val intent = authApiViewModel.getSignInIntent(this)
+        val intent = mainViewModel.getSignInIntent(this)
         registerForSignInActivityResult.launch(intent)
     }
 
     private fun handleSignInActivityResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
-            observeOnce(authApiViewModel.signIn(result.data), ::handleSignInResult)
+            observeOnce(mainViewModel.signIn(result.data), ::handleSignInResult)
         } else {
             binding.progressCircular.visibility = View.INVISIBLE
             binding.btnSignIn.isEnabled = true

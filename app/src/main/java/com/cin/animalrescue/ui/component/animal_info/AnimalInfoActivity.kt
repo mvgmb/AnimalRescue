@@ -56,6 +56,13 @@ class AnimalInfoActivity : BaseActivity() {
             binding.type.text = animal.type
             binding.info.text = animal.info
             binding.location.text = location
+        } else {
+            Logger.error(resource.message.toString())
+            Toast.makeText(
+                this,
+                "Falha no carregamento dos dados do animal: ${resource.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -63,12 +70,10 @@ class AnimalInfoActivity : BaseActivity() {
         if (resource.isSuccess()) {
             binding.imageView.setImageURI(resource.data)
         } else {
-            Logger.logError(resource.message.toString())
-
-            // TODO improve image error to user
+            Logger.error(resource.message.toString())
             Toast.makeText(
                 this,
-                "Failed to load animal image ${resource.message}",
+                "Falha no carregamento da imagem do animal: ${resource.message}",
                 Toast.LENGTH_SHORT
             ).show()
         }

@@ -5,15 +5,15 @@ import android.util.Log
 object Logger {
     private const val TAG = "MyLogger"
 
-    fun logInfo(msg: String) {
+    fun info(msg: String) {
         Log.i(TAG, msg)
     }
 
-    fun logError(msg: String) {
+    fun error(msg: String) {
         Log.e(TAG, msg)
     }
 
-    fun logDebug(msg: String) {
+    fun debug(msg: String) {
         Log.d(TAG, msg)
     }
 }

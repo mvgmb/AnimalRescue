@@ -12,11 +12,6 @@ import com.cin.animalrescue.vo.Resource
 class AnimalInfoViewModel(application: Application) : AndroidViewModel(application) {
     private val repo: AnimalRepository = AnimalRepository(FirebaseAnimalDB())
 
-    fun getById(id: String): LiveData<Resource<Animal>> {
-        return repo.getById(id)
-    }
-
-    fun getAnimalImage(id: String): LiveData<Resource<Uri>> {
-        return repo.getAnimalImage(id)
-    }
+    fun getById(id: String): LiveData<Resource<Animal>> = repo.getById(id)
+    fun getAnimalImage(id: String): LiveData<Resource<Uri>> = repo.getAnimalImage(id)
 }

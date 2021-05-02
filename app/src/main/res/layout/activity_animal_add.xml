@@ -9,8 +9,8 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="100sp">
+        android:layout_marginBottom="100sp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Foto"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/image_view"
@@ -37,13 +37,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16sp"
                 android:text="Tirar Foto" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
                 android:text="Título"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/title"
@@ -51,13 +53,14 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
                 android:text="Espécie"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/type"
@@ -65,13 +68,14 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
                 android:text="Localização"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/location"
@@ -79,13 +83,14 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
                 android:text="Informações adicionais"
-                android:textSize="16sp" />
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/info"
@@ -93,22 +98,16 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="18dp" />
 
             <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16sp"
                 android:text="Registrar Animal"
                 android:textColor="#FFFFFF" />
-
-            <Button
-                android:id="@+id/btn_test"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Add Random Animal" />
 
         </LinearLayout>
 

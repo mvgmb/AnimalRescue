@@ -10,7 +10,7 @@ import com.cin.animalrescue.utils.handleMenuItemClick
 import com.task.ui.base.BaseActivity
 
 class UserActivity : BaseActivity() {
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: UserViewModel by viewModels()
 
     private lateinit var binding: ActivityUserBinding
 

@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import com.cin.animalrescue.data.AuthApi
 import com.cin.animalrescue.data.auth.FirebaseAuthApi
 
-class AuthViewModel(application: Application) : AndroidViewModel(application) {
-    private var authApi: AuthApi = FirebaseAuthApi()
+class UserViewModel(application: Application) : AndroidViewModel(application) {
+    private val authApi: AuthApi = FirebaseAuthApi()
 
     fun getUserName(): String? = authApi.getUserName()
     fun getUserEmail(): String? = authApi.getUserEmail()

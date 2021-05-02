@@ -61,7 +61,7 @@ class AnimalListActivity : BaseActivity() {
             list?.sortBy { it.title }
             animalAdapter.submitList(list)
         } else {
-            Logger.logError(resource.message.toString())
+            Logger.error(resource.message.toString())
 
             // TODO improve image error to user
             Toast.makeText(
