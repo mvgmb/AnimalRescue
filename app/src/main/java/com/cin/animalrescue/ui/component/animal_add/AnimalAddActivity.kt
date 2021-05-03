@@ -40,15 +40,7 @@ class AnimalAddActivity : BaseActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
-//            binding.progressCircular.visibility = View.VISIBLE
-//            binding.btnTakePicture.isEnabled = false
-//            binding.btnRegister.isEnabled = false
-
             handleBtnRegisterClick()
-
-//            binding.progressCircular.visibility = View.INVISIBLE
-//            binding.btnTakePicture.isEnabled = true
-//            binding.btnRegister.isEnabled = true
         }
 
         binding.bottomNavigation.post {
