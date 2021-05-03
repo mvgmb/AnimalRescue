@@ -1,5 +1,7 @@
 package com.cin.animalrescue.ui.component.animal_list
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -11,20 +13,24 @@ import com.cin.animalrescue.utils.Logger
 import com.cin.animalrescue.utils.handleMenuItemClick
 import com.cin.animalrescue.utils.observeOnce
 import com.cin.animalrescue.vo.Resource
+import com.google.android.gms.location.*
 import com.task.ui.base.BaseActivity
-
 
 class AnimalListActivity : BaseActivity() {
     private val animalListViewModel: AnimalListViewModel by viewModels()
 
     private lateinit var binding: ActivityAnimalListBinding
     private lateinit var animalAdapter: AnimalAdapter
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun initViewBinding() {
         binding = ActivityAnimalListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         animalAdapter = AnimalAdapter(layoutInflater)
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        getLocation()
     }
 
     override fun setBindings() {
@@ -52,23 +58,58 @@ class AnimalListActivity : BaseActivity() {
     }
 
     override fun observeViewModel() {
-        observeOnce(animalListViewModel.getAll(), ::handleGetAllResult)
+        observeOnce(animalListViewModel.animalList, ::handleAnimalListChange)
     }
 
-    private fun handleGetAllResult(resource: Resource<List<Animal>>) {
+    private fun handleAnimalListChange(resource: Resource<List<Animal>>) {
         if (resource.isSuccess()) {
             val list = resource.data?.toMutableList()
-            list?.sortBy { it.title }
             animalAdapter.submitList(list)
         } else {
-            Logger.error(resource.message.toString())
+            val msg = "Falha no carregamento da lista de animais: ${resource.message}"
+            Logger.error(msg)
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        }
+    }
 
-            // TODO improve image error to user
-            Toast.makeText(
-                this,
-                "Failed to get all animals list: ${resource.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+    companion object {
+        private val ACCESS_FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
+        private val ACCESS_COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
+        private val GET_LOCATION_REQUEST_CODE = 1001
+        private val GET_LOCATION_PERMISSIONS = arrayOf(
+            ACCESS_FINE_LOCATION_PERMISSION,
+            ACCESS_COARSE_LOCATION_PERMISSION
+        )
+    }
+
+    private fun getLocation() {
+        requestPermissions(GET_LOCATION_PERMISSIONS, GET_LOCATION_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            GET_LOCATION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    try {
+                        fusedLocationProviderClient.lastLocation
+                            .addOnSuccessListener {
+                                animalListViewModel.updateAnimalListOrderedByDistance(it.latitude, it.longitude)
+                            }
+                            .addOnFailureListener { e ->
+                                Logger.error(e.toString())
+                            }
+                    } catch (e: SecurityException) {
+                        Logger.error(e.toString())
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 }

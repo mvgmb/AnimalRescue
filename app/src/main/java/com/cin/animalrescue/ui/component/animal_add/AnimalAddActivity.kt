@@ -2,7 +2,6 @@ package com.cin.animalrescue.ui.component.animal_add
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -16,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.cin.animalrescue.R
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.databinding.ActivityAnimalAddBinding
+import com.cin.animalrescue.ui.component.animal_list.AnimalListActivity
 import com.cin.animalrescue.utils.Logger
 import com.cin.animalrescue.utils.handleMenuItemClick
 import com.cin.animalrescue.utils.observe
@@ -28,36 +28,24 @@ class AnimalAddActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAnimalAddBinding
 
-    companion object {
-        private val CAMERA_PERMISSION = Manifest.permission.CAMERA
-        private val WRITE_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE
-        private val OPEN_CAMERA_REQUEST_CODE = 1000
-        private val OPEN_CAMERA_PERMISSIONS = arrayOf(
-            CAMERA_PERMISSION,
-            WRITE_EXTERNAL_STORAGE_PERMISSION
-        )
-    }
-
     override fun initViewBinding() {
         binding = ActivityAnimalAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
     override fun setBindings() {
-        binding.btnRegister.setOnClickListener {
-            handleBtnRegisterClick()
-        }
-
         binding.btnTakePicture.setOnClickListener {
             requestOpenCamera()
+        }
+
+        binding.btnRegister.setOnClickListener {
+            handleBtnRegisterClick()
         }
 
         binding.bottomNavigation.post {
             setScrollViewViewMarginAsBottomNavHeight()
         }
-
         binding.bottomNavigation.selectedItemId = R.id.animal_add
-
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             handleMenuItemClick(this, item)
         }
@@ -74,6 +62,16 @@ class AnimalAddActivity : BaseActivity() {
         observe(animalListViewModel.animalImageURI) {
             binding.imageView.setImageURI(it)
         }
+    }
+
+    companion object {
+        private val CAMERA_PERMISSION = Manifest.permission.CAMERA
+        private val WRITE_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        private val OPEN_CAMERA_REQUEST_CODE = 1000
+        private val OPEN_CAMERA_PERMISSIONS = arrayOf(
+            CAMERA_PERMISSION,
+            WRITE_EXTERNAL_STORAGE_PERMISSION
+        )
     }
 
     private fun requestOpenCamera() {
@@ -109,23 +107,19 @@ class AnimalAddActivity : BaseActivity() {
         ::handleCameraActivityResult
     )
 
-    private fun openCamera() {
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "New Picture")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From the camera")
-        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
-        animalListViewModel.setAnimalImageUri(imageUri!!)
-
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            .putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-        registerForCameraActivityResult.launch(cameraIntent)
-    }
-
     private fun handleCameraActivityResult(result: ActivityResult) {
         if (result.resultCode == Activity.RESULT_OK) {
             animalListViewModel.refreshAnimalImageUri()
         }
+    }
+
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            .putExtra(
+                MediaStore.EXTRA_OUTPUT,
+                animalListViewModel.createLocalAnimalImage(contentResolver),
+            )
+        registerForCameraActivityResult.launch(cameraIntent)
     }
 
     private fun handleBtnRegisterClick() {
@@ -169,10 +163,11 @@ class AnimalAddActivity : BaseActivity() {
             latitude = result[0].latitude,
             longitude = result[0].longitude,
             info = binding.info.text.toString(),
-            image_uri = animalListViewModel.animalImageURI.toString(),
+            image_uri = animalListViewModel.animalImageURI.value.toString(),
         )
         observeOnce(animalListViewModel.insert(animal)) { resource ->
             if (resource.isSuccess()) {
+                startActivity(Intent(this, AnimalListActivity::class.java))
                 finish()
             } else {
                 Logger.error(resource.message.toString())

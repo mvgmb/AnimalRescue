@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.cin.animalrescue.data.AnimalRepositorySource
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.vo.Resource
+import com.google.android.gms.tasks.Tasks.await
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -38,22 +39,26 @@ class FirebaseAnimalDB : AnimalRepositorySource {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): LiveData<Resource<List<Animal>>> {
-        val res = MutableLiveData<Resource<List<Animal>>>()
+    override suspend fun getAll(): Resource<List<Animal>> {
+        val res: Resource<List<Animal>>
 
-        db.collection("animals")
-            .get()
-            .addOnSuccessListener { result ->
-                val animalMutableList = mutableListOf<Animal>()
-                result.map {
-                    animalMutableList.add(createAnimalFromData(it.data))
-                }
-                res.postValue(Resource.success(animalMutableList))
-            }
-            .addOnFailureListener { e ->
-                res.postValue(Resource.error(e.toString(), null))
-            }
+        val task = db.collection("animals").get()
 
+        try {
+            await(task)
+        } catch (e: Exception) {
+            return Resource.error(e.toString(), null)
+        }
+
+        res = if (task.isSuccessful) {
+            val animalMutableList = mutableListOf<Animal>()
+            task.result?.map {
+                animalMutableList.add(createAnimalFromData(it.data))
+            }
+            Resource.success(animalMutableList)
+        } else {
+            Resource.error(task.result.toString(), null)
+        }
         return res
     }
 
@@ -73,7 +78,6 @@ class FirebaseAnimalDB : AnimalRepositorySource {
         return res
     }
 
-    // TODO refactor: extract functions
     override fun insert(animal: Animal): LiveData<Resource<Boolean>> {
         val res = MutableLiveData<Resource<Boolean>>()
 

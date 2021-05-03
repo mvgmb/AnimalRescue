@@ -9,7 +9,7 @@ interface AnimalRepositorySource {
     fun getById(id: String): LiveData<Resource<Animal>>
     fun getAnimalImage(id: String): LiveData<Resource<Uri>>
     fun getByType(type: String): LiveData<Resource<List<Animal>>>
-    fun getAll(): LiveData<Resource<List<Animal>>>
+    suspend fun getAll(): Resource<List<Animal>>
     fun insert(animal: Animal): LiveData<Resource<Boolean>>
     fun remove(animal: Animal): LiveData<Resource<Boolean>>
     fun update(animal: Animal): LiveData<Resource<Boolean>>

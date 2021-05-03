@@ -23,18 +23,16 @@ class UserActivity : BaseActivity() {
         binding.userName.text = authViewModel.getUserName()
         binding.userEmail.text = authViewModel.getUserEmail()
 
-        binding.bottomNavigation.selectedItemId = R.id.user
-
-        binding.bottomNavigation.post {
-            setScrollViewViewMarginAsBottomNavHeight()
-        }
-
         binding.btnSignOut.setOnClickListener {
             authViewModel.signOut(this)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
 
+        binding.bottomNavigation.post {
+            setScrollViewViewMarginAsBottomNavHeight()
+        }
+        binding.bottomNavigation.selectedItemId = R.id.user
         binding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             handleMenuItemClick(this, item)
         }

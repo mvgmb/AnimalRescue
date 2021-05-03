@@ -24,7 +24,7 @@ class AnimalRepository(private val animalRepositorySource: AnimalRepositorySourc
     }
 
     @WorkerThread
-    fun getAll(): LiveData<Resource<List<Animal>>> {
+    suspend fun getAll(): Resource<List<Animal>> {
         return animalRepositorySource.getAll()
     }
 
