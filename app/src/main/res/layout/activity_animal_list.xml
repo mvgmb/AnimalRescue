@@ -9,6 +9,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="18sp"
         android:layout_marginBottom="100sp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
