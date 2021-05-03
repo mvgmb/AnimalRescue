@@ -109,6 +109,14 @@
                 android:text="Registrar Animal"
                 android:textColor="#FFFFFF" />
 
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:indeterminate="true"
+                android:visibility="invisible"/>
+
         </LinearLayout>
 
     </ScrollView>

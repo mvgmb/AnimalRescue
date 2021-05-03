@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,7 +40,15 @@ class AnimalAddActivity : BaseActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
+//            binding.progressCircular.visibility = View.VISIBLE
+//            binding.btnTakePicture.isEnabled = false
+//            binding.btnRegister.isEnabled = false
+
             handleBtnRegisterClick()
+
+//            binding.progressCircular.visibility = View.INVISIBLE
+//            binding.btnTakePicture.isEnabled = true
+//            binding.btnRegister.isEnabled = true
         }
 
         binding.bottomNavigation.post {
@@ -114,17 +123,21 @@ class AnimalAddActivity : BaseActivity() {
     }
 
     private fun openCamera() {
+        val imageUri = animalListViewModel.createLocalAnimalImage(contentResolver)
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             .putExtra(
                 MediaStore.EXTRA_OUTPUT,
-                animalListViewModel.createLocalAnimalImage(contentResolver),
+                imageUri,
             )
         registerForCameraActivityResult.launch(cameraIntent)
     }
 
     private fun handleBtnRegisterClick() {
+        binding.progressCircular.visibility = View.VISIBLE
+
         if (isAnyFieldEmpty()) {
             Toast.makeText(this, "Favor preencher todos os campos", Toast.LENGTH_LONG).show()
+            binding.progressCircular.visibility = View.INVISIBLE
             return
         }
 
@@ -137,6 +150,7 @@ class AnimalAddActivity : BaseActivity() {
                 val msg = "Localização '$inputLocation' não foi encontrada"
                 Logger.error(msg)
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                binding.progressCircular.visibility = View.INVISIBLE
                 return
             }
 
@@ -171,6 +185,7 @@ class AnimalAddActivity : BaseActivity() {
                 startActivity(Intent(this, AnimalListActivity::class.java))
                 finish()
             } else {
+                binding.progressCircular.visibility = View.INVISIBLE
                 Logger.error(resource.message.toString())
                 Toast.makeText(this, resource.message, Toast.LENGTH_LONG).show()
             }

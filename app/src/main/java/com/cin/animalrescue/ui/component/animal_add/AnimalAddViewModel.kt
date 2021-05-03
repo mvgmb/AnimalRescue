@@ -13,6 +13,7 @@ import com.cin.animalrescue.data.auth.FirebaseAuthApi
 import com.cin.animalrescue.data.db.FirebaseAnimalDB
 import com.cin.animalrescue.data.model.Animal
 import com.cin.animalrescue.data.repository.AnimalRepository
+import com.cin.animalrescue.utils.Logger
 import com.cin.animalrescue.vo.Resource
 
 class AnimalAddViewModel(application: Application) : AndroidViewModel(application) {
