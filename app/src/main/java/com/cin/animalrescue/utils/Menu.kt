@@ -25,11 +25,6 @@ fun handleMenuItemClick(ctx: Activity, item: MenuItem): Boolean =
             ctx.finish()
             true
         }
-        R.id.my_animal_list -> {
-            Toast.makeText(ctx, "Not implemented", Toast.LENGTH_SHORT).show()
-//            ctx.finish()
-            false
-        }
         R.id.user -> {
             ctx.startActivity(Intent(ctx, UserActivity::class.java))
             ctx.finish()
