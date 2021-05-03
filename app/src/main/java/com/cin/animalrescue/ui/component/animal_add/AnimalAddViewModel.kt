@@ -23,6 +23,7 @@ class AnimalAddViewModel(application: Application) : AndroidViewModel(applicatio
     val animalImageURI: LiveData<Uri?> = _animalImageURI
 
     fun getUserUID(): String? = authApi.getUserUID()
+    fun getUserName(): String? = authApi.getUserName()
     fun insert(animal: Animal): LiveData<Resource<Boolean>> = repo.insert(animal)
 
     fun createLocalAnimalImage(c: ContentResolver): Uri? {
@@ -32,10 +33,6 @@ class AnimalAddViewModel(application: Application) : AndroidViewModel(applicatio
         val imageUri = c.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         _animalImageURI.postValue(imageUri)
         return imageUri
-    }
-
-    fun setAnimalImageUri(uri: Uri) {
-        _animalImageURI.postValue(uri)
     }
 
     fun refreshAnimalImageUri() {

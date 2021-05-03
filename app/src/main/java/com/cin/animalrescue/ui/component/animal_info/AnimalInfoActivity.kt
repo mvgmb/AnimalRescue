@@ -52,7 +52,7 @@ class AnimalInfoActivity : BaseActivity() {
             longitude = animal.longitude.toString()
 
             binding.title.text = animal.title
-            binding.helperUid.text = animal.helper_uid
+            binding.helperUid.text = animal.helper_name
             binding.type.text = animal.type
             binding.info.text = animal.info
             binding.location.text = location

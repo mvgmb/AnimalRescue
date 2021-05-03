@@ -14,9 +14,8 @@ import com.google.firebase.storage.ktx.storage
 import java.io.File
 
 class FirebaseAnimalDB : AnimalRepositorySource {
-    val db = Firebase.firestore
-
-    var storage: FirebaseStorage = Firebase.storage
+    private val db = Firebase.firestore
+    private val storage: FirebaseStorage = Firebase.storage
 
     override fun getById(id: String): LiveData<Resource<Animal>> {
         val res = MutableLiveData<Resource<Animal>>()
@@ -118,6 +117,7 @@ class FirebaseAnimalDB : AnimalRepositorySource {
         return Animal(
             id = data["id"].toString(),
             helper_uid = data["helper_uid"].toString(),
+            helper_name = data["helper_name"].toString(),
             type = data["type"].toString(),
             title = data["title"].toString(),
             location = data["location"].toString(),

@@ -157,6 +157,7 @@ class AnimalAddActivity : BaseActivity() {
         val animal = Animal(
             id = UUID.randomUUID().toString(),
             helper_uid = animalListViewModel.getUserUID().toString(),
+            helper_name = animalListViewModel.getUserName().toString(),
             type = binding.type.text.toString(),
             title = binding.title.text.toString(),
             location = result[0].getAddressLine(0),
